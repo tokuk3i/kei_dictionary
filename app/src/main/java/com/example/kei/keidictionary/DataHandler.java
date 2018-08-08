@@ -9,10 +9,13 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-public class DictionaryData extends SQLiteOpenHelper {
+public class DataHandler extends SQLiteOpenHelper {
+
+    private static DataHandler sInstance;
+
     private static final String DATABASE_NAME = "dictionary";
     private static final String TABLE_NAME = "master_dict";
-    private static final int DATABASE_Version = 1;
+    private static final int DATABASE_VERSION = 1;
     private static final String UID="id";
     private static final String DICT_ID = "dict_id";
     private static final String WORD = "word";
@@ -26,10 +29,24 @@ public class DictionaryData extends SQLiteOpenHelper {
 
     private Context context;
 
-    public DictionaryData(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_Version);
+    public static synchronized DataHandler getInstance(Context context) {
+
+        // Use the application context, which will ensure that you
+        // don't accidentally leak an Activity's context.
+        // See this article for more information: http://bit.ly/6LRzfx
+        if (sInstance == null) {
+            sInstance = new DataHandler(context.getApplicationContext());
+        }
+        return sInstance;
+    }
+
+    /**
+     * Constructor should be private to prevent direct instantiation.
+     * make call to static method "getInstance()" instead.
+     */
+    private DataHandler(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context=context;
-        //Message.message(context,"Reading database . . . ");
     }
 
     @Override
@@ -113,5 +130,4 @@ public class DictionaryData extends SQLiteOpenHelper {
         }
         return res;
     }
-
 }

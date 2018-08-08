@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity
     TextView contentView;
     ListEntryAdapter entriesAdapter;
     ArrayList<WordEntry> entriesList;
-    DictionaryData handle;
+    DataHandler handle;
 
 
     @Override
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        handle = new DictionaryData(this.getApplicationContext());
+        handle = DataHandler.getInstance(this.getApplicationContext());
 //        WordEntry entry1 = new WordEntry("kei","xin chao",1);
 //        WordEntry entry2 = new WordEntry("dung","nihao",2);
 //        handle.addNewWord(entry1);

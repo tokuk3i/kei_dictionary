@@ -24,6 +24,7 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d("setting","insertdata");
+                insertDataFromCSV("fielname");
             }
         });
     }
@@ -37,6 +38,10 @@ public class SettingActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void insertDataFromCSV(String path){
+
     }
 
 }
