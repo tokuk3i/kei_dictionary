@@ -54,8 +54,8 @@ public class MainActivity extends AppCompatActivity
 //        WordEntry entry2 = new WordEntry("dung","nihao",2);
 //        handle.addNewWord(entry1);
 //        handle.addNewWord(entry2);
-        Cursor check  = handle.getData();
-        Log.d("main","num : "+check.getCount());
+        //Cursor check  = handle.getData();
+        //Log.d("main","num : "+check.getCount());
 
         searchView = (SearchView)findViewById(R.id.searchview);
         searchView.setOnQueryTextListener(this);
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity
 
 
         entriesList = new ArrayList<WordEntry>();
-        entriesList = handle.getSugesstionList("ke");
+        //entriesList = handle.getSugesstionList("ke");
 
         entriesAdapter = new ListEntryAdapter(this);
         entriesAdapter.setWordList(entriesList);
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_send) {
             // Handle the camera action
             Log.d("main","nav_send");
-        } else if (id == R.id.nav_dictionary) {
+        } else if (id == R.id.nav_setting) {
             Log.d("main","nav_dictionary");
             Intent intent = new Intent(this, SettingActivity.class);
             startActivity(intent);
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
             //finish();
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_search) {
             Log.d("main","nav_manage");
 
         } else if (id == R.id.nav_send) {

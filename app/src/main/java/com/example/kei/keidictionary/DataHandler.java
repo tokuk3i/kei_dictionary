@@ -13,13 +13,13 @@ public class DataHandler extends SQLiteOpenHelper {
 
     private static DataHandler sInstance;
 
-    private static final String DATABASE_NAME = "dictionary";
-    private static final String TABLE_NAME = "master_dict";
-    private static final int DATABASE_VERSION = 1;
-    private static final String UID="id";
-    private static final String DICT_ID = "dict_id";
-    private static final String WORD = "word";
-    private static final String MEAN = "mean";
+    public static final String DATABASE_NAME = "dictionary";
+    public static final String TABLE_NAME = "master_dict";
+    public static final int DATABASE_VERSION = 1;
+    public static final String UID="id";
+    public static final String DICT_ID = "dict_id";
+    public static final String WORD = "word";
+    public static final String MEAN = "mean";
 
     private static final String CREATE_TABLE = "CREATE TABLE "+TABLE_NAME +
             "( "+UID+" INTEGER PRIMARY KEY AUTOINCREMENT," + DICT_ID + " INTEGER ," + WORD +" TEXT," + MEAN + " TEXT)";

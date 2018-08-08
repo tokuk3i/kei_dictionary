@@ -12,10 +12,54 @@
         android:layout_height="48dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="68dp"
         android:fontFamily="monospace"
         android:text="辞書データ読み込む"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="辞書一覧"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="141dp" />
+
+    <CheckBox
+        android:id="@+id/engjp_checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="英日辞書"
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_editor_absoluteY="210dp" />
+
+    <CheckBox
+        android:id="@+id/jpeng_checkBox2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="日英辞書"
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_editor_absoluteY="263dp" />
+
+    <CheckBox
+        android:id="@+id/vnjp_checkBox3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="日越辞書"
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_editor_absoluteY="318dp" />
+
+    <CheckBox
+        android:id="@+id/jpvn_checkBox4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="越日辞書"
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_editor_absoluteY="368dp" />
+
 </android.support.constraint.ConstraintLayout>
