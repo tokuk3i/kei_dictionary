@@ -137,6 +137,8 @@ public class MainActivity extends AppCompatActivity
             Log.d("main","nav_send");
         } else if (id == R.id.nav_dictionary) {
             Log.d("main","nav_dictionary");
+            Intent intent = new Intent(this, SettingActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_history) {
             Log.d("main","nav_history");
