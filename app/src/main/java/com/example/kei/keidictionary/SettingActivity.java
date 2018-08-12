@@ -20,7 +20,7 @@ import java.nio.charset.Charset;
 
 public class SettingActivity extends AppCompatActivity {
 
-    Button insertData;
+    Button insertData,insertData2,insertData3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,25 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d("setting","insertdata");
-                insertDataFromCSV("raw/test.csv");
+                insertDataFromCSV("engjp");
+            }
+        });
+
+        insertData2 = (Button)findViewById(R.id.insertDataBtn2);
+        insertData2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("setting","insertdata2");
+                insertDataFromCSV("jpeng");
+            }
+        });
+
+        insertData3 = (Button)findViewById(R.id.insertDataBtn3);
+        insertData3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("setting","insertdata3");
+                insertDataFromCSV("vnjp");
             }
         });
     }
@@ -57,7 +75,17 @@ public class SettingActivity extends AppCompatActivity {
         SQLiteDatabase db = handler.getWritableDatabase();
         //Log.d("import","num : "+ handler.getData().getCount());
         try {
-            InputStream is = getResources().openRawResource(R.raw.test);
+            InputStream is;
+            if (!filepath.equals("engjp")){
+                is = getResources().openRawResource(R.raw.engjp);
+            }else if (!filepath.equals("jpeng")){
+                is = getResources().openRawResource(R.raw.jpeng);
+            }else if (!filepath.equals("vnjp")){
+                is = getResources().openRawResource(R.raw.vnjp);
+            }else{
+                return;
+            }
+
             BufferedReader buffer = new BufferedReader(
                     new InputStreamReader(is, Charset.forName("UTF-8")));
             String line = "";
@@ -67,6 +95,7 @@ public class SettingActivity extends AppCompatActivity {
 //            String line = "";
             db.beginTransaction();
             //Log.d("import","readfile");
+            Message.message(this.getApplicationContext(),filepath+" Import start!");
             while ((line = buffer.readLine()) != null) {
 
                 //Log.d("import",line);
@@ -89,8 +118,8 @@ public class SettingActivity extends AppCompatActivity {
             db.setTransactionSuccessful();
 
             db.endTransaction();
-            Message.message(this.getApplicationContext(),"Import finished!");
-            Log.d("import","Added OK");
+            Message.message(this.getApplicationContext(),filepath+" Import finished!");
+            Log.d("import",filepath + "Added OK");
         }catch (SQLException e)
         {
             Log.e("Error",e.getMessage().toString());

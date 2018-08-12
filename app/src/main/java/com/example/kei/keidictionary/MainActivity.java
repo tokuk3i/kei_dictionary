@@ -3,8 +3,10 @@ package com.example.kei.keidictionary;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -21,6 +23,8 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,SearchView.OnQueryTextListener {
@@ -31,12 +35,15 @@ public class MainActivity extends AppCompatActivity
     ListEntryAdapter entriesAdapter;
     ArrayList<WordEntry> entriesList;
     DataHandler handle;
+    Date previousTick;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d("main","savedInstanceState");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -51,12 +58,14 @@ public class MainActivity extends AppCompatActivity
 
         handle = DataHandler.getInstance(this.getApplicationContext());
 //        WordEntry entry1 = new WordEntry("kei","xin chao",1);
-//        WordEntry entry2 = new WordEntry("dung","nihao",2);
-//        handle.addNewWord(entry1);
-//        handle.addNewWord(entry2);
-        //Cursor check  = handle.getData();
-        //Log.d("main","num : "+check.getCount());
+        ////        WordEntry entry2 = new WordEntry("dung","nihao",2);
+        ////        handle.addNewWord(entry1);
+        ////        handle.addNewWord(entry2);
+        //        //Cursor check  = handle.getData();
+        //        //Log.d("main","num : "+check.getCount());
 
+
+        previousTick = Calendar.getInstance().getTime();
         searchView = (SearchView)findViewById(R.id.searchview);
         searchView.setOnQueryTextListener(this);
 
@@ -81,7 +90,7 @@ public class MainActivity extends AppCompatActivity
                 Object o = listView.getItemAtPosition(position);
                 WordEntry entry = (WordEntry) o;
                 listView.setVisibility(View.INVISIBLE);
-                contentView.setText(entry.getMean());
+                contentView.setText(android.text.Html.fromHtml(entry.getMean(),Html.FROM_HTML_MODE_COMPACT));
                 contentView.setVisibility(View.VISIBLE);
                 //Toast.makeText(MainActivity.this, "Selected :" + " " + country, Toast.LENGTH_LONG).show();
             }
@@ -164,20 +173,53 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onQueryTextSubmit(String query) {
 
+
         listView.setVisibility(View.INVISIBLE);
-        contentView.setText(query);
+        if(entriesList.size() == 0){
+            Message.message(this.getApplicationContext(),"No entry found");
+            contentView.setText("No entry found");
+            //contentView.setText(android.text.Html.fromHtml(entry.getMean(),1));
+        }else{
+            WordEntry res = entriesList.get(0);
+            //contentView.setText(res.getMean());
+            contentView.setText(android.text.Html.fromHtml(res.getMean(), Html.FROM_HTML_MODE_COMPACT));
+        }
         contentView.setVisibility(View.VISIBLE);
         return false;
     }
 
     @Override
-    public boolean onQueryTextChange(String newText) {
+    public boolean onQueryTextChange(final String newText) {
         /*String text = newText;
         adapter.filter(text);
         */
-        entriesList.clear();
-        entriesList = handle.getSugesstionList(newText);
-        entriesAdapter.setWordList(entriesList);
+
+//        long c1 = Calendar.getInstance().getTime().getTime();
+//        long c2 = previousTick.getTime();
+//        long check = c1-c2;
+//        previousTick = Calendar.getInstance().getTime();
+//        Log.d("main","number : "+c1 + "and "+ c2 + "WITH : "+ check);
+//        if ( check < 300){
+//            //Log.d("tick","here" + (Calendar.getInstance().getTime().getTime() - previousTick.getTime()));
+//            //previousTick = Calendar.getInstance().getTime()
+//            return false;
+//        }
+
+        if(newText.isEmpty()){
+            entriesList.clear();
+            contentView.setText("");
+            entriesAdapter.setWordList(entriesList);
+        }else{
+            ArrayList<WordEntry> resFilter = filter(newText);
+            if(resFilter.size() == 0){
+                entriesList.clear();
+                entriesList = handle.getSugesstionList(newText);
+                entriesAdapter.setWordList(entriesList);
+            }else{
+                entriesAdapter.setWordList(resFilter);
+            }
+        }
+
         //entriesList = new ArrayList<WordEntry>(handle.getSugesstionList(newText));
         //Log.d("main","number : "+entriesList.size());
         entriesAdapter.notifyDataSetChanged();
@@ -185,4 +227,15 @@ public class MainActivity extends AppCompatActivity
         contentView.setVisibility(View.INVISIBLE);
         return false;
     }
+
+    private ArrayList<WordEntry> filter(String key) {
+        ArrayList<WordEntry> res = new ArrayList<WordEntry>();
+        for(int i = 0;i < this.entriesList.size();i++){
+            if(entriesList.get(i).getWord().startsWith(key)){
+                res.add(entriesList.get(i));
+            }
+        }
+        return res;
+    }
+
 }
