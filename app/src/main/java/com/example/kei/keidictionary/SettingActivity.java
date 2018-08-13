@@ -20,8 +20,8 @@ import java.nio.charset.Charset;
 
 public class SettingActivity extends AppCompatActivity {
 
-    Button insertData,insertData2,insertData3;
-
+    Button insertData,insertData2,insertData3,dlbtn;
+    String URL ="https://dl.google.com/dl/androidjumper/mtp/4421500/AndroidFileTransfer.dmg";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +36,7 @@ public class SettingActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d("setting","insertdata");
                 insertDataFromCSV("engjp");
+                insertData.setEnabled(false);
             }
         });
 
@@ -45,6 +46,7 @@ public class SettingActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d("setting","insertdata2");
                 insertDataFromCSV("jpeng");
+                insertData2.setEnabled(false);
             }
         });
 
@@ -54,6 +56,19 @@ public class SettingActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d("setting","insertdata3");
                 insertDataFromCSV("vnjp");
+                insertData3.setEnabled(false);
+            }
+        });
+
+
+        dlbtn = (Button)findViewById(R.id.dlbtn);
+        dlbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Log.d("setting","dlbtn");
+                new DownloadTask(SettingActivity.this,URL);
+
             }
         });
     }
@@ -76,11 +91,12 @@ public class SettingActivity extends AppCompatActivity {
         //Log.d("import","num : "+ handler.getData().getCount());
         try {
             InputStream is;
-            if (!filepath.equals("engjp")){
+            if (filepath.equals("engjp")== true){
                 is = getResources().openRawResource(R.raw.engjp);
-            }else if (!filepath.equals("jpeng")){
+            }else if (filepath.equals("jpeng")==true){
                 is = getResources().openRawResource(R.raw.jpeng);
-            }else if (!filepath.equals("vnjp")){
+            }else if (filepath.equals("vnjp")==true){
+                Log.d("import","imported vnjp");
                 is = getResources().openRawResource(R.raw.vnjp);
             }else{
                 return;
@@ -95,7 +111,7 @@ public class SettingActivity extends AppCompatActivity {
 //            String line = "";
             db.beginTransaction();
             //Log.d("import","readfile");
-            Message.message(this.getApplicationContext(),filepath+" Import start!");
+            //Message.message(this.getApplicationContext(),filepath+" Import start!");
             while ((line = buffer.readLine()) != null) {
 
                 //Log.d("import",line);
