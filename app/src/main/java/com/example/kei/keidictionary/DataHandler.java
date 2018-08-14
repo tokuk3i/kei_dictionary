@@ -20,12 +20,16 @@ public class DataHandler extends SQLiteOpenHelper {
     public static final String DICT_ID = "dict_id";
     public static final String WORD = "word";
     public static final String MEAN = "mean";
+    public static final String INDEX = "dictionary_idx";
 
     private static final String CREATE_TABLE = "CREATE TABLE "+TABLE_NAME +
             "( "+UID+" INTEGER PRIMARY KEY AUTOINCREMENT," + DICT_ID + " INTEGER ," + WORD +" TEXT," + MEAN + " TEXT)";
 
 
     private static final String DROP_TABLE ="DROP TABLE IF EXISTS "+TABLE_NAME;
+
+    private static final String CREATE_INDEX ="CREATE INDEX "+ INDEX +" ON "+ TABLE_NAME +"("+WORD+")";
+    private static final String REINDEX ="REINDEX "+ DATABASE_NAME+"."+INDEX;
 
     private Context context;
 
@@ -54,6 +58,7 @@ public class DataHandler extends SQLiteOpenHelper {
         try {
 
             db.execSQL(CREATE_TABLE);
+            db.execSQL(CREATE_INDEX);
             //Message.message(context,"TABLE CREATED");
         } catch (Exception e) {
             Message.message(context,""+e);
@@ -81,6 +86,11 @@ public class DataHandler extends SQLiteOpenHelper {
         values.put(MEAN,entry.getMean());
         db.insert(TABLE_NAME,null, values);
         Log.d("Kei","Added OK");
+    }
+
+    public void reindex(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(REINDEX);
     }
 
     public Cursor getData(){

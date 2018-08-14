@@ -131,8 +131,8 @@ public class SettingActivity extends AppCompatActivity {
                 //Log.d("import","imported OK");
 
             }
+            handler.reindex();
             db.setTransactionSuccessful();
-
             db.endTransaction();
             Message.message(this.getApplicationContext(),filepath+" Import finished!");
             Log.d("import",filepath + "Added OK");
